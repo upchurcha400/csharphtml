@@ -1,0 +1,914 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+</head>
+
+<body>
+	<p>
+	﻿<Window x:Class="AnthonyUpchurchM2C.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AnthonyUpchurchM2C"
+        mc:Ignorable="d"
+        Title="Another Calculator!" Height="285" Width="281">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Number 1:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+        <TextBox x:Name="txtNumber1" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontSize="20" Margin="5"/>
+
+        <Label Content="Number 2:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+        <TextBox x:Name="txtNumber2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" FontSize="20" Margin="5"/>
+
+        <Label Content="Result:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+        <Label x:Name="lblResult" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" FontSize="20" VerticalAlignment="Center" Margin="5" Background="LightGray"/>
+
+        <Button x:Name="btnAdd" Content="Add" Grid.Row="3" Grid.Column="0" Click="btnAdd_Click" FontSize="16" Margin="5"/>
+        <Button x:Name="btnSubtract" Content="Subtract" Grid.Row="3" Grid.Column="1" Click="btnSubtract_Click" FontSize="16" Margin="5"/>
+        <Button x:Name="btnMultiply" Content="Multiply" Grid.Row="3" Grid.Column="2" Click="btnMultiply_Click" FontSize="16" Margin="5"/>
+
+        <Button x:Name="btnClear" Content="Clear" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Click="btnClear_Click" FontSize="16" Margin="5"/>
+        <Button x:Name="btnExit" Content="Exit" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Click="btnExit_Click" FontSize="16" Margin="5"/>
+    </Grid>
+</Window>
+﻿using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace AnthonyUpchurchM2C
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            double number1, number2, result;
+            if (double.TryParse(txtNumber1.Text, out number1) && double.TryParse(txtNumber2.Text, out number2))
+            {
+                result = number1 + number2;
+                lblResult.Content = result.ToString();
+            }
+            else
+            {
+                lblResult.Content = "Error";
+            }
+        }
+
+        private void btnSubtract_Click(object sender, RoutedEventArgs e)
+        {
+            double number1, number2, result;
+            if (double.TryParse(txtNumber1.Text, out number1) && double.TryParse(txtNumber2.Text, out number2))
+            {
+                result = number1 - number2;
+                lblResult.Content = result.ToString();
+            }
+            else
+            {
+                lblResult.Content = "Error";
+            }
+        }
+
+        private void btnMultiply_Click(object sender, RoutedEventArgs e)
+        {
+            double number1, number2, result;
+            if (double.TryParse(txtNumber1.Text, out number1) && double.TryParse(txtNumber2.Text, out number2))
+            {
+                result = number1 * number2;
+                lblResult.Content = result.ToString();
+            }
+            else
+            {
+                lblResult.Content = "Error";
+            }
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            txtNumber1.Text = "";
+            txtNumber2.Text = "";
+            lblResult.Content = "";
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+    }
+}
+
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+
+namespace AnthonyUpchurchM3B
+{
+    public partial class frmSeasons : Form
+    {
+        public frmSeasons()
+        {
+            InitializeComponent();
+            InitializeCustomComponents();
+        }
+
+        private void InitializeCustomComponents()
+        {
+          
+            this.Text = "Select a Season";
+            this.Size = new Size(423, 262);
+
+            pbxSeasons.Image = Image.FromFile(@"..\Debug\NoSeason.png");
+            lbxSeasons.Items.Add("Winter");
+            lbxSeasons.Items.Add("Spring");
+            lbxSeasons.Items.Add("Summer");
+            lbxSeasons.Items.Add("Fall");
+            lbxSeasons.SelectedIndexChanged += new EventHandler(lbxSeasons_SelectedIndexChanged);
+
+            btnClear.Click += new EventHandler(btnClear_Click);
+
+            
+            btnExit.Click += new EventHandler(btnExit_Click);
+        }
+
+        private void lbxSeasons_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbxSeasons.SelectedItem != null) // Needed to check if an item is selected
+            {
+                string selectedSeason = lbxSeasons.SelectedItem.ToString();
+
+                if (selectedSeason == "Winter")
+                {
+                    this.BackColor = Color.LightBlue;
+                    this.ForeColor = Color.DarkBlue;
+                    this.Text = "Winter";
+                    pbxSeasons.Image = Image.FromFile(@"..\Debug\winter.png");
+                }
+                else if (selectedSeason == "Spring")
+                {
+                    this.BackColor = Color.LightGreen;
+                    this.ForeColor = Color.DarkGreen;
+                    this.Text = "Spring";
+                    pbxSeasons.Image = Image.FromFile(@"..\Debug\spring.png");
+                }
+                else if (selectedSeason == "Summer")
+                {
+                    this.BackColor = Color.LightYellow;
+                    this.ForeColor = Color.DarkOrange;
+                    this.Text = "Summer";
+                    pbxSeasons.Image = Image.FromFile(@"..\Debug\summer.png");
+                }
+                else if (selectedSeason == "Fall")
+                {
+                    this.BackColor = Color.Orange;
+                    this.ForeColor = Color.Brown;
+                    this.Text = "Fall";
+                    pbxSeasons.Image = Image.FromFile(@"..\Debug\fall.png");
+                }
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            this.BackColor = SystemColors.Control;
+            this.ForeColor = SystemColors.ControlText;
+            this.Text = "Select a Season";
+            pbxSeasons.Image = Image.FromFile(@"..\Debug\NoSeason.png");
+            lbxSeasons.BackColor = SystemColors.Window;
+            lbxSeasons.ForeColor = SystemColors.WindowText;
+            btnClear.BackColor = SystemColors.Control;
+            btnClear.ForeColor = SystemColors.ControlText;
+            lbxSeasons.ClearSelected();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+
+namespace AnthonyUpchurchM3B
+{
+    public partial class frmSeasons : Form
+    {
+        public frmSeasons()
+        {
+            InitializeComponent();
+            InitializeCustomComponents();
+        }
+
+        private void InitializeCustomComponents()
+        {
+          
+            this.Text = "Select a Season";
+            this.Size = new Size(423, 262);
+
+            pbxSeasons.Image = Image.FromFile(@"..\Debug\NoSeason.png");
+            lbxSeasons.Items.Add("Winter");
+            lbxSeasons.Items.Add("Spring");
+            lbxSeasons.Items.Add("Summer");
+            lbxSeasons.Items.Add("Fall");
+            lbxSeasons.SelectedIndexChanged += new EventHandler(lbxSeasons_SelectedIndexChanged);
+
+            btnClear.Click += new EventHandler(btnClear_Click);
+
+            
+            btnExit.Click += new EventHandler(btnExit_Click);
+        }
+
+        private void lbxSeasons_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbxSeasons.SelectedItem != null) // Needed to check if an item is selected
+            {
+                string selectedSeason = lbxSeasons.SelectedItem.ToString();
+
+                if (selectedSeason == "Winter")
+                {
+                    this.BackColor = Color.LightBlue;
+                    this.ForeColor = Color.DarkBlue;
+                    this.Text = "Winter";
+                    pbxSeasons.Image = Image.FromFile(@"..\Debug\winter.png");
+                }
+                else if (selectedSeason == "Spring")
+                {
+                    this.BackColor = Color.LightGreen;
+                    this.ForeColor = Color.DarkGreen;
+                    this.Text = "Spring";
+                    pbxSeasons.Image = Image.FromFile(@"..\Debug\spring.png");
+                }
+                else if (selectedSeason == "Summer")
+                {
+                    this.BackColor = Color.LightYellow;
+                    this.ForeColor = Color.DarkOrange;
+                    this.Text = "Summer";
+                    pbxSeasons.Image = Image.FromFile(@"..\Debug\summer.png");
+                }
+                else if (selectedSeason == "Fall")
+                {
+                    this.BackColor = Color.Orange;
+                    this.ForeColor = Color.Brown;
+                    this.Text = "Fall";
+                    pbxSeasons.Image = Image.FromFile(@"..\Debug\fall.png");
+                }
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            this.BackColor = SystemColors.Control;
+            this.ForeColor = SystemColors.ControlText;
+            this.Text = "Select a Season";
+            pbxSeasons.Image = Image.FromFile(@"..\Debug\NoSeason.png");
+            lbxSeasons.BackColor = SystemColors.Window;
+            lbxSeasons.ForeColor = SystemColors.WindowText;
+            btnClear.BackColor = SystemColors.Control;
+            btnClear.ForeColor = SystemColors.ControlText;
+            lbxSeasons.ClearSelected();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
+﻿using System;
+using System.Runtime.InteropServices;
+using static System.Console;
+namespace AnthonyUpchurchM4A
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            double bugsTotal = 0;
+            double daffyTotal = 0;
+            double elmerTotal = 0;
+            double grandTotal = 0;
+
+            while(true)
+            {
+                Console.WriteLine("Enter your initial or Z for totals: ");
+                string input = Console.ReadLine().ToUpper();
+                if (input == "Z")
+                {
+                    break;
+                }
+
+                if (input == "B" || input == "D" || input == "E")
+                {
+                    Console.WriteLine("Enter the amount of the sale: ");
+                    string saleInput = Console.ReadLine();
+                    double saleAmount;
+
+                    if (double.TryParse(saleInput, out saleAmount) && saleAmount > 0)
+                    {
+                        if (input =="B")
+                        {
+                            bugsTotal += saleAmount;
+                        }
+                        else if (input == "D")
+                        {
+                            daffyTotal += saleAmount;
+                        }
+                        else if (input == "E")
+                        {
+                            elmerTotal += saleAmount;
+                        }
+                        grandTotal += saleAmount;
+                    }
+                    else
+                    { 
+                        Console.WriteLine("Invalid sale amount. Please enter a positive number.");
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Sorry - invalid salesperson");
+                }
+            }
+            Console.WriteLine("\n----- Sales Totals -----");
+            Console.WriteLine("Bugs: $" + bugsTotal);
+            Console.WriteLine("Daffy: $" + daffyTotal);
+            Console.WriteLine("Elmer: $" + elmerTotal);
+            Console.WriteLine("------------------------");
+            Console.WriteLine("Grand Total: $" + grandTotal);
+
+            string topSalesperson = "None";
+            double highestTotal = 0;
+
+            if (bugsTotal > highestTotal)
+            {
+                highestTotal = bugsTotal;
+                topSalesperson = "Bugs";
+            }
+
+            if (daffyTotal > highestTotal)
+            {
+                highestTotal = daffyTotal;
+                topSalesperson = "Daffy";
+            }
+
+            if (elmerTotal > highestTotal)
+            {
+                highestTotal = elmerTotal;
+                topSalesperson = "Elmer";
+            }
+
+            // Display the top salesperson
+            Console.WriteLine("Top Salesperson: " + topSalesperson);
+        }
+    }
+}
+﻿using System;
+using System.IO;
+using System.Windows.Forms;
+
+namespace AnthonyUpchurchM4B
+{
+    public partial class frmSalesReporting : Form
+    {
+        private string fileName = "auSales.txt";
+
+        public frmSalesReporting()
+        {
+            InitializeComponent();
+        }
+
+        private void btnWrite_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(tbxSalesAmount.Text))
+            {
+                MessageBox.Show("Please enter a sales amount.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbxSalesAmount.Focus();
+                return;
+            }
+
+            if (!decimal.TryParse(tbxSalesAmount.Text, out decimal salesAmount) || salesAmount <= 0)
+            {
+                MessageBox.Show("Please enter a valid positive sales amount.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbxSalesAmount.Focus();
+                return;
+            }
+
+            File.AppendAllText(fileName, salesAmount + Environment.NewLine);
+
+            MessageBox.Show("Sales amount written to file.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            tbxSalesAmount.Clear();
+            tbxSalesAmount.Focus();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            lbxBoxSales.Items.Clear();
+
+            if (!File.Exists(fileName))
+            {
+                MessageBox.Show("Sales file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string[] lines = File.ReadAllLines(fileName);
+
+            foreach (string line in lines)
+            {
+                lbxBoxSales.Items.Add(line);
+            }
+
+            MessageBox.Show("Sales amounts loaded.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnTotal_Click(object sender, EventArgs e)
+        {
+            if (lbxBoxSales.Items.Count == 0)
+            {
+                MessageBox.Show("No sales amounts to calculate total.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            decimal total = 0;
+
+            foreach (string item in lbxBoxSales.Items)
+            {
+                if (decimal.TryParse(item, out decimal value))
+                {
+                    total += value;
+                }
+            }
+
+            lblTotalValue.Text = total.ToString("C");
+        }
+
+        private void btnAverage_Click(object sender, EventArgs e)
+        {
+            if (lbxBoxSales.Items.Count == 0)
+            {
+                MessageBox.Show("No sales amounts to calculate average.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            decimal total = 0;
+            int count = lbxBoxSales.Items.Count;
+
+            foreach (string item in lbxBoxSales.Items)
+            {
+                if (decimal.TryParse(item, out decimal value))
+                {
+                    total += value;
+                }
+            }
+
+            decimal average = total / count;
+            lblAverageValue.Text = average.ToString("C");
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            tbxSalesAmount.Clear();
+            lbxBoxSales.Items.Clear();
+            lblTotalValue.Text = string.Empty;
+            lblAverageValue.Text = string.Empty;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        
+    }
+}
+
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+
+namespace AnthonyUpchurchM4C
+{
+    public partial class MainWindow : Window
+    {
+        private bool isRobot = false; // To toggle between Human and Robot
+
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Code to execute when the window loads
+            MessageBox.Show("I think Ted is a Robot!");
+        }
+        private void ToggleView_Click(object sender, RoutedEventArgs e)
+        {
+            // Loop through all the children of the Canvas
+            foreach (var child in MyCanvas.Children)
+            {
+                if (child is Shape shape && shape.Tag != null)
+                {
+                    string tag = shape.Tag.ToString();
+
+                    // Toggle colors based on the state (Human or Robot)
+                    if (!isRobot)
+                    {
+                        // Change to Robot colors
+                        switch (tag)
+                        {
+                            case "body": shape.Fill = Brushes.DarkGray; break;
+                            case "face": shape.Fill = Brushes.LightGray; break;
+                            case "hair": shape.Fill = Brushes.DarkGray; break;
+                            case "eye":
+                                if (shape is Ellipse && shape.Width == 50)
+                                    shape.Fill = Brushes.Black;
+                                else if (shape is Ellipse && shape.Width == 20)
+                                    shape.Fill = Brushes.Transparent;
+                                else
+                                    shape.Fill = Brushes.Red;
+                                break;
+                            case "mouth":
+                                if (shape is Ellipse)
+                                    shape.Fill = Brushes.Transparent;
+                                else
+                                    shape.Fill = Brushes.DarkRed;
+                                break;
+                            case "nose": shape.Fill = Brushes.Black; break;
+                        }
+                    }
+                    else
+                    {
+                        // Change to Human colors
+                        switch (tag)
+                        {
+                            case "body":
+                                if (shape is Rectangle && shape.Width == 340)
+                                    shape.Fill = Brushes.Blue;
+                                else
+                                    shape.Fill = Brushes.Yellow;
+                                break;
+                            case "face": shape.Fill = Brushes.PeachPuff; break;
+                            case "hair": shape.Fill = Brushes.BurlyWood; break;
+                            case "eye":
+                                if (shape is Ellipse && shape.Width == 50)
+                                    shape.Fill = Brushes.White;
+                                else if (shape is Ellipse && shape.Width == 20)
+                                    shape.Fill = Brushes.Black;
+                                else
+                                    shape.Fill = Brushes.Transparent;
+                                break;
+                            case "mouth":
+                                if (shape is Ellipse)
+                                    shape.Fill = Brushes.Black;
+                                else
+                                    shape.Fill = Brushes.Transparent;
+                                break;
+                            case "nose": shape.Fill = Brushes.LightCoral; break;
+                        }
+                    }
+                }
+            }
+
+            // Toggle the state
+            isRobot = !isRobot;
+
+            //Add code to change the button text
+            UpdateButtonText();
+        }
+        private void UpdateButtonText()
+        {
+            // Update the button text based on the current state
+            if (isRobot)
+            {
+                ToggleButton.Content = "or, Human?";
+            }
+            else
+            {
+                ToggleButton.Content = "Is he Robot?";
+            }
+        }
+    }
+}
+﻿using System;
+using static System.Console;
+
+namespace AnthonyUpchurchM5A
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            Write("Enter the number of miles: ");
+
+            int miles;
+            bool isValid = int.TryParse(Console.ReadLine(), out miles);
+
+            if (isValid && miles >= 0)
+            {
+                int feet = ConvertIt(miles);
+
+                WriteLine(miles + " miles is " + feet + " feet.");
+            }
+            else
+            {
+                WriteLine("Invalid input. Please enter a non-negative integer.");
+            }
+        }
+
+        static int ConvertIt(int miles)
+        {
+            return miles * 5280;
+        }
+    }
+}
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace AnthonyUpchurchM5B
+{
+    public partial class Form1 : Form
+    {
+        // Class-level variable for current background color
+        private Color selectedColor = SystemColors.Control;
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        // Event handler for all RadioButton CheckedChanged events
+        private void rbtColor_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+
+            if (radioButton != null && radioButton.Checked)
+            {
+                // Set the selectedColor based on the RadioButton's text
+                switch (radioButton.Text)
+                {
+                    case "Red":
+                        selectedColor = Color.Red;
+                        break;
+                    case "Blue":
+                        selectedColor = Color.Blue;
+                        break;
+                    case "Green":
+                        selectedColor = Color.Green;
+                        break;
+                    case "Yellow":
+                        selectedColor = Color.Yellow;
+                        break;
+                    case "White":
+                        selectedColor = Color.White;
+                        break;
+                }
+
+                // Call the method to change the background color
+                ColorChange();
+            }
+        }
+
+        // Method to change the background color of the form
+        private void ColorChange()
+        {
+            this.BackColor = selectedColor;
+        }
+
+        // Convert Button Click Event
+        private void btnConvert_Click(object sender, EventArgs e)
+        {
+            // Validate input
+            if (double.TryParse(tbxInput.Text, out double value) && lstConversions.SelectedItem != null)
+            {
+                string conversionType = lstConversions.SelectedItem.ToString();
+                double result = 0;
+
+                switch (conversionType)
+                {
+                    case "Inches to Centimeters":
+                        result = ConvertInchesToCentimeters(value);
+                        lblResults.Text = $"{value} inches is {result} centimeters.";
+                        break;
+                    case "Feet to Meters":
+                        result = ConvertFeetToMeters(value);
+                        lblResults.Text = $"{value} feet is {result} meters.";
+                        break;
+                    case "Yards to Meters":
+                        result = ConvertYardsToMeters(value);
+                        lblResults.Text = $"{value} yards is {result} meters.";
+                        break;
+                    case "Miles to Kilometers":
+                        result = ConvertMilesToKilometers(value);
+                        lblResults.Text = $"{value} miles is {result} kilometers.";
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid number and select a conversion type.");
+            }
+        }
+
+        // Conversion Methods
+        private double ConvertInchesToCentimeters(double inches)
+        {
+            return inches * 2.54;
+        }
+
+        private double ConvertFeetToMeters(double feet)
+        {
+            return feet * 0.3048;
+        }
+
+        private double ConvertYardsToMeters(double yards)
+        {
+            return yards * 0.9144;
+        }
+
+        private double ConvertMilesToKilometers(double miles)
+        {
+            return miles * 1.60934;
+        }
+
+        // Clear Button Click Event
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearLabel();
+            ClearText();
+            ClearSelections();
+        }
+
+        // Void Methods for Clearing
+        private void ClearLabel()
+        {
+            lblResults.Text = string.Empty;
+        }
+
+        private void ClearText()
+        {
+            tbxInput.Text = string.Empty;
+        }
+
+        private void ClearSelections()
+        {
+            foreach (Control control in groupBox1.Controls)
+            {
+                if (control is RadioButton radioButton)
+                {
+                    radioButton.Checked = false;
+                }
+            }
+
+            this.BackColor = SystemColors.Control;
+            lstConversions.ClearSelected();
+        }
+
+        // Exit Button Click Event
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+    }
+}
+
+﻿using System.Windows.Controls;
+using System.Windows;
+using System.Diagnostics;
+using System;
+using System.IO;
+
+namespace AnthonyUpchurchM5C
+{
+    public partial class MainWindow : Window
+    {
+        private readonly string filePath;
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            filePath = "EmployeeSchedule.txt";
+
+            LoadScheduleFile();
+        }
+
+        private void btnEmployee1_Click(object sender, RoutedEventArgs e)
+        {
+            AddSchedule("Anthony", lstEmployee1);
+        }
+
+        private void btnEmployee2_Click(object sender, RoutedEventArgs e)
+        {
+            AddSchedule("Jane", lstEmployee2);
+        }
+
+        private void btnEmployee3_Click(object sender, RoutedEventArgs e)
+        {
+            AddSchedule("Alejandro", lstEmployee3);
+        }
+
+        private void AddSchedule(string employeeName, ListBox employeeListBox)
+        {
+            if (calendar.SelectedDate == null)
+            {
+                MessageBox.Show("Please select a valid date from the calendar.");
+                return;
+            }
+
+            if (cmbStartTime.SelectedIndex < 0 || cmbEndTime.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please select both start and end times.");
+                return;
+            }
+
+            string date = calendar.SelectedDate.Value.ToShortDateString();
+            string startTime = (cmbStartTime.SelectedItem as ComboBoxItem)?.Content.ToString();
+            string endTime = (cmbEndTime.SelectedItem as ComboBoxItem)?.Content.ToString();
+
+            string scheduleEntry = $"{employeeName}: {date} {startTime} - {endTime}";
+
+
+            lstMainSchedule.Items.Add(scheduleEntry);
+
+
+            employeeListBox.Items.Add($"{date} {startTime} - {endTime}");
+
+            WriteScheduleFile(scheduleEntry);
+        }
+
+        private void LoadScheduleFile()
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    string[] scheduleEntries = File.ReadAllLines(filePath);
+
+                    foreach (string entry in scheduleEntries)
+                    {
+                        lstMainSchedule.Items.Add(entry);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error reading from file: {ex.Message}");
+            }
+        }
+
+        private void WriteScheduleFile(string scheduleEntry)
+        {
+            try
+            {
+                File.AppendAllText(filePath, scheduleEntry + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error writing to file: {ex.Message}");
+            }
+        }
+    }
+		}</p>
+</body>
+</html>
